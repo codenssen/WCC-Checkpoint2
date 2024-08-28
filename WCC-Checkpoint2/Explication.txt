@@ -1,0 +1,13 @@
+﻿Properties : Ce répertoire contient les fichiers de configuration nécessaires au projet ASP.NET. Par défaut, il contient le fichier launchSettings.json, qui permet de configurer le lancement de l'application (protocole HTTP ou HTTPS, URL de lancement, etc.).
+
+wwwRoot : Ce dossier contient les fichiers statiques du projet (images, CSS, Script JS, etc.).
+
+Models : Ce répertoire contient les modèles de données liés au projet. Il permet de définir les entités pour la base de données (approche Code First).
+
+Views : Ce dossier contient les vues générées par ASP.NET en Razor (fichiers .cshtml), appelées par le contrôleur correspondant.
+
+Controllers : Ce dossier contient les méthodes appelées via les requêtes HTTP (GET/POST/PUT/DELETE, etc.). Ces méthodes interagissent avec les données (via les modèles) et renvoient le résultat aux vues.
+
+appSettings.json : Ce fichier contient les chaînes de configuration utilisées dans le projet (chaînes de connexion à la base de données, clés API externes, etc.).
+
+Program.cs : Ce fichier représente le point d'entrée du programme, où sont configurés le serveur, les middlewares, et les services via l'injection de dépendances.

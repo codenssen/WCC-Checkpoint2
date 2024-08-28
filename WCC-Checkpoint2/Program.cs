@@ -1,3 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using System;
+using WCC_Checkpoint2.Data;
+using WCC_Checkpoint2.Interface;
+using WCC_Checkpoint2.Repository;
+
 namespace WCC_Checkpoint2
 {
     public class Program
@@ -8,6 +14,13 @@ namespace WCC_Checkpoint2
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDb"));
+            });
+
+            builder.Services.AddScoped<IBookRepository, BookRepository>();
 
             var app = builder.Build();
 
