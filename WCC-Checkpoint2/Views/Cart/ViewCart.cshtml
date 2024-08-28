@@ -1,0 +1,36 @@
+﻿@model WCC_Checkpoint2.Models.Cart
+
+<h3>Votre panier :</h3>
+
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Article</th>
+            <th scope="col">Titre du livre</th>
+            <th scope="col">Prix</th>
+            <th scope="col">Quantité</th>
+        </tr>
+    </thead>
+    <tbody>
+       
+        @{
+            int index = 1;
+            decimal totalAmount = 0;
+        }
+        @foreach (var item in Model.CartItems)
+        {
+            <tr>
+                <th scope="row">@index</th>
+                <td>@item.Book?.Title</td>
+                <td>@item.Price €</td>
+                <td>@item.Quantity</td>
+            </tr>
+
+            index++;
+            totalAmount += item.Price * item.Quantity;
+        }
+       
+    </tbody>
+</table>
+<p><strong>Prix total :</strong> @totalAmount €</p>

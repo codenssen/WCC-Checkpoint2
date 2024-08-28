@@ -13,10 +13,20 @@ namespace WCC_Checkpoint2.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+
+        public DbSet<CartItem> CartItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<CartItem>().Property(ci => ci.Price).HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<CartItem>()
+            .HasOne(ca => ca.Cart)
+            .WithMany(c => c.CartItems)
+            .HasForeignKey(car => car.CartId);
 
             // Seed des catégories
             modelBuilder.Entity<Category>().HasData(
@@ -186,6 +196,65 @@ namespace WCC_Checkpoint2.Data
                      AuthorId = 7,
                  }
                 );
+
+            // Seed des paniers
+            modelBuilder.Entity<Cart>().HasData(
+                new Cart() { Id = 1 },  // Panier 1
+                new Cart() { Id = 2 }   // Panier 2
+            );
+
+            // Seed des éléments du panier
+            modelBuilder.Entity<CartItem>().HasData(
+                new CartItem()
+                {
+                    Id = 1,
+                    CartId = 1,  // Relie à Cart 1
+                    BookId = 1,  // L'Eveil du Leviathan
+                    Quantity = 2,
+                    Price = 1.99m
+                },
+                new CartItem()
+                {
+                    Id = 2,
+                    CartId = 1,  // Relie à Cart 1
+                    BookId = 3,  // Le Seigneur des Anneaux : La Communauté de l'Anneau
+                    Quantity = 1,
+                    Price = 8.99m
+                },
+                new CartItem()
+                {
+                    Id = 3,
+                    CartId = 1,  // Relie à Cart 1
+                    BookId = 5,  // Shining
+                    Quantity = 1,
+                    Price = 7.99m
+                },
+                new CartItem()
+                {
+                    Id = 4,
+                    CartId = 2,  // Relie à Cart 2
+                    BookId = 4,  // Le Hobbit
+                    Quantity = 1,
+                    Price = 6.99m
+                },
+                new CartItem()
+                {
+                    Id = 5,
+                    CartId = 2,  // Relie à Cart 2
+                    BookId = 8,  // Un Monde Sans Fin
+                    Quantity = 1,
+                    Price = 12.99m
+                },
+                new CartItem()
+                {
+                    Id = 6,
+                    CartId = 2,  // Relie à Cart 2
+                    BookId = 10,  // Dune
+                    Quantity = 2,
+                    Price = 9.99m
+                }
+            );
+
         }
     }
 }

@@ -21,6 +21,7 @@ namespace WCC_Checkpoint2
             });
 
             builder.Services.AddScoped<IBookRepository, BookRepository>();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
 
             var app = builder.Build();
 
