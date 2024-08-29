@@ -17,6 +17,32 @@ d'administration pour la gestion des stocks.
 
 ## Installation
 
+Pour installer la base de données initiale, exécutez les commandes suivantes dans la console de gestionnaire de packages NuGet :
+
+- `add-migration InitDb`
+- `update-database`
+
+Ensuite, pour exécuter l'application, procédez comme suit dans le terminal :
+
+1. Placez-vous dans le répertoire du projet.
+2. Exécutez la commande `dotnet run`.
+3. Ouvrez un navigateur internet et accédez à la page [https://localhost:5222/](https://localhost:5222/).
+
 ## Guide d'utilisation
 
+### Liste des livres
+
+- Vous pouvez parcourir la liste des livres présents dans l'application.
+- Il est possible de voir les détails d'un livre en cliquant sur le bouton "Détails".
+- Vous pouvez ajouter un livre au panier en cliquant sur le bouton "Ajouter au panier".
+
+### Panier
+
+- Le panier vous permet de commander les livres sélectionnés.
+- Il est possible d'ajouter ou de supprimer des quantités.
+- Vous pouvez supprimer complètement un livre du panier.
+- Le montant total s'affiche en bas de la page.
+
 ## Guide d'administration
+
+- En cours de développement
