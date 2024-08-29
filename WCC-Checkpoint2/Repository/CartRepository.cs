@@ -58,7 +58,7 @@ namespace WCC_Checkpoint2.Repository
             // Si l'élément existe déjà, on augmente la quantité
             if (cartItem != null)
             {
-                if (cartItem.Quantity > 0 || quantity != -1) {
+                if (cartItem.Quantity > 1 || quantity != -1) {
                     cartItem.Quantity += quantity;
                 }
             }

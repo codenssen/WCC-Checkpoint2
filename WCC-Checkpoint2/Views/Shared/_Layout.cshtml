@@ -1,4 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using WCC_Checkpoint2.Areas.Identity.Data
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+
+@{
+    var currentAction = ViewContext.RouteData.Values["Action"]?.ToString();
+    var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,30 +23,38 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WCC_Checkpoint2</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse d-sm-inline-flex justify-content-between collapse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        <div class="nav-container">
+            <a asp-controller="Home" asp-action="Index">
+                <img src="~/img/wildbook-logo.png" height="125" />
+            </a>
+
+            <nav class="custom-nav-item">
+                <ul class="nav-list">
+                    <li class="@(currentController == "Home" && currentAction == "Index" ? "active" : "")">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
+                            <img width="25" height="25" src="~/icons/home.svg" /> <span>Accueil</span>
+                        </a>
+                    </li>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="@(currentController == "Book" && currentAction== "Index" ? "active" : "")">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Index">
+                                <img width="25" height="25" src="~/icons/books.svg" /> <span>Livres</span>
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Index">Livres</a>
+                        <li class="@(currentAction == "ViewCart" ? "active" : "")">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="ViewCart">
+                                <img width="25" height="25" src="~/icons/cart.svg" /> <span>Panier</span>
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="ViewCart">Panier</a>
-                        </li>
-                        
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
+
+                    }
+                </ul>
+
+            </nav>
+            <partial name="_LoginPartial" />
+        </div>
+       
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -43,7 +64,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - WCC_Checkpoint2 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - WCC_Checkpoint2
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
