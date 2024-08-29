@@ -2,50 +2,59 @@
 
 <h3>Votre panier :</h3>
 
-<table class="table">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">Article</th>
-            <th scope="col">Titre du livre</th>
-            <th scope="col">Prix</th>
-            <th scope="col">Quantité</th>
-            <th scope="col">Supprimer</th>
-        </tr>
-    </thead>
-    <tbody>
-       
-        @{
-            int index = 1;
-            decimal totalAmount = 0;
-        }
-        @foreach (var item in Model.CartItems)
-        {
-            <tr>
-                <th scope="row">@index</th>
-                <td>@item.Book?.Title</td>
-                <td>@item.Price €</td>
-                <td>
-                    <div class="input-group">
-                        <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
-                            <input type="hidden" name="bookId" value="@item.BookId" />
-                            <input type="hidden" name="quantity" value="-1" />
-                            <button type="submit" class="btn btn-outline-secondary">-</button>
-                        </form>
-                        <span class="input-group-text">@item.Quantity</span>
-                        <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
-                            <input type="hidden" name="bookId" value="@item.BookId" />
-                            <input type="hidden" name="quantity" value="1" />
-                            <button type="submit" class="btn btn-outline-secondary">+</button>
-                        </form>
-                    </div>
-                </td>
-                <td><a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-bookId="@item.BookId" class="btn btn-danger">Supprimer</a></td>
-            </tr>
+@if (Model.CartItems.Count == 0)
+{
+    <h4>Votre panier est vide</h4>
+}
+else
+{
 
-            index++;
-            totalAmount += item.Price * item.Quantity;
-        }
-       
-    </tbody>
-</table>
-<p><strong>Prix total :</strong> @totalAmount €</p>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Article</th>
+                <th scope="col">Titre du livre</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                decimal totalAmount = 0;
+            }
+
+
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <th scope="row"><img src=@item.Book.CoverImage height="80" /></th>
+                    <td>@item.Book?.Title</td>
+                    <td>@item.Price €</td>
+                    <td>
+                        <div class="input-group">
+                            <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
+                                <input type="hidden" name="bookId" value="@item.BookId" />
+                                <input type="hidden" name="quantity" value="-1" />
+                                <button type="submit" class="btn btn-outline-secondary">-</button>
+                            </form>
+                            <span class="input-group-text">@item.Quantity</span>
+                            <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
+                                <input type="hidden" name="bookId" value="@item.BookId" />
+                                <input type="hidden" name="quantity" value="1" />
+                                <button type="submit" class="btn btn-outline-secondary">+</button>
+                            </form>
+                        </div>
+                    </td>
+                    <td><a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-bookId="@item.BookId" class="btn btn-danger">Supprimer</a></td>
+                </tr>
+
+                totalAmount += item.Price * item.Quantity;
+            }
+
+        </tbody>
+    </table>
+    <p><strong>Prix total :</strong> @totalAmount €</p>
+}

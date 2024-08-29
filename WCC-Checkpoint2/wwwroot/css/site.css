@@ -247,3 +247,17 @@ header {
     font-size : 25px;
     margin-bottom : 15px;
 }
+
+/* Book CSS */
+
+.book-container {
+    padding : 25px;
+    display : flex;
+    flex-direction : row;
+    flex-wrap : wrap;
+    gap:25px;
+}
+
+.card-body {
+    background-color: #f3e7cf;
+}

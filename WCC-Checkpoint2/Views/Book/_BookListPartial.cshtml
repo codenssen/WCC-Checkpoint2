@@ -6,25 +6,24 @@
 }
 else
 {
-    <table class="table-striped table">
-        <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Author</th>
-                <th scope="col">Price</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var book in Model)
-            {
-                <tr>
-                    <td>@book.Title</td>
-                    <td>@book.Author.Name</td>
-                    <td>@book.Price</td>
-                    <td><a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id" class="btn btn-info">Détails</a></td>
-                </tr>
-            }
-        </tbody>
-    </table>
+
+    <div class="book-container">
+        @foreach (var book in Model)
+        {
+            <div class="card" style="width: 18rem;">
+                <img src="@book.CoverImage" class="card-img-top" alt="@book.Title" height="300" style="object-fit:cover">
+                <div class="card-body">
+                    <h5 class="card-title">@book.Title</h5>
+                    <p class="card-text"><strong>Auteur :</strong> @book.Author.Name</p>
+                    <p class="card-text"><strong>Prix :</strong> @book.Price €</p>
+                    <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id" class="btn btn-info">Détails</a>
+                    <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
+                        <input type="hidden" name="bookId" value="@book.Id" />
+                        <input type="hidden" name="quantity" value="1" />
+                        <button type="submit" class="btn btn-dark">Ajouter au panier</button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
 }

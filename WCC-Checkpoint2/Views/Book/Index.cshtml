@@ -15,58 +15,49 @@
     }
     else
     {
-        <table class="table-striped table">
-            <thead>
-                <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Author</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var book in Model)
-                {
-                    <tr>
-                        <td>@book.Title</td>
-                        <td>@book.Author.Name</td>
-                        <td>@book.Price</td>
-                        <td><a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id" class="btn btn-info">Détails</a></td>
-                        <td>
-                          <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
+        <div class="book-container">
+            @foreach (var book in Model)
+            {
+                <div class="card" style="width: 18rem;">
+                    <img src="@book.CoverImage" class="card-img-top" alt="@book.Title" height="300" style="object-fit:cover">
+                    <div class="card-body">
+                        <h5 class="card-title">@book.Title</h5>
+                        <p class="card-text"><strong>Auteur :</strong> @book.Author.Name</p>
+                        <p class="card-text"><strong>Prix :</strong> @book.Price €</p>
+                        <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id" class="btn btn-info">Détails</a>
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
                             <input type="hidden" name="bookId" value="@book.Id" />
                             <input type="hidden" name="quantity" value="1" />
-                            <button type="submit" class="btn btn-outline-secondary">Ajouter au panier</button>
+                            <button type="submit" class="btn btn-dark">Ajouter au panier</button>
                         </form>
-                                </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                    </div>
+                </div>
+            }
+        </div>
+
     }
 </div>
 
 <!-- Ajout du script AJAX -->
 @section Scripts {
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#searchForm').submit(function (event) {
-            event.preventDefault(); // Empêche le rechargement de la page
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#searchForm').submit(function (event) {
+                event.preventDefault(); // Empêche le rechargement de la page
 
                 $.ajax({
                     url: '@Url.Action("SearchBooks", "Book")',
                     type: 'GET',
                     data: { searchQuery: $('#searchQuery').val() },
                     success: function (result) {
-                        console.log(result); // Vérifie ce qui est retourné
                         $('#searchResults').html(result);
                     },
                     error: function (xhr, status, error) {
                         console.error(error);
                     }
                 });
+            });
         });
-    });
-</script>
+    </script>
 }
