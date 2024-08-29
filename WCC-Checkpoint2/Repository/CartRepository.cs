@@ -61,6 +61,10 @@ namespace WCC_Checkpoint2.Repository
                 if (cartItem.Quantity > 1 || quantity != -1) {
                     cartItem.Quantity += quantity;
                 }
+                else
+                {
+                    throw new Exception("Merci de supprimer si vous souhaitez une quantité de 0");
+                }
             }
             else
             {

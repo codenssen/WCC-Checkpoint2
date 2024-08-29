@@ -1,13 +1,23 @@
 ﻿@model WCC_Checkpoint2.Models.Book
-<div class="d-flex flex-column gap-4">
-    <h4>@Model.Title</h4>
-    <img class="rounded" src=@Model.CoverImage height="200" width="150" style="object-fit : contain" />
-    <span><strong>Auteur : </strong>@Model.Author.Name</span>
-    <span><strong>Categorie : </strong>@Model.Category.Name</span>
-    <span><strong>Description : </strong>@Model.Description</span>
-    <span><strong>Prix : </strong>@Model.Price</span>
-    <div class="w-50">
-        <a asp-controller="Book" asp-action="Index" class="btn btn-info">Retour à la liste</a>
-    </div>
 
-</div>
+@if (Model == null)
+{
+    <div class="alert alert-warning">
+        Le livre est introuvable.
+    </div>
+}
+else
+{
+    <div class="d-flex flex-column gap-4">
+        <h4>@Model.Title</h4>
+        <img class="rounded" src=@Model.CoverImage height="200" width="150" style="object-fit : contain" />
+        <span><strong>Auteur : </strong>@Model.Author.Name</span>
+        <span><strong>Categorie : </strong>@Model.Category.Name</span>
+        <span><strong>Description : </strong>@Model.Description</span>
+        <span><strong>Prix : </strong>@Model.Price</span>
+        <div class="w-50">
+            <a asp-controller="Book" asp-action="Index" class="btn btn-info">Retour à la liste</a>
+        </div>
+
+    </div>
+}

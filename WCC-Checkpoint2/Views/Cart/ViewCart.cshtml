@@ -2,59 +2,73 @@
 
 <h3>Votre panier :</h3>
 
-@if (Model.CartItems.Count == 0)
+@if (Model == null)
 {
-    <h4>Votre panier est vide</h4>
+    <div class="alert alert-warning">
+        Le panier est introuvable.
+    </div>
 }
 else
 {
+    if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+    }
 
-
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Article</th>
-                <th scope="col">Titre du livre</th>
-                <th scope="col">Prix</th>
-                <th scope="col">Quantité</th>
-                <th scope="col">Supprimer</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @{
-                decimal totalAmount = 0;
-            }
-
-
-            @foreach (var item in Model.CartItems)
-            {
+    if (Model.CartItems.Count == 0)
+    {
+        <h4>Votre panier est vide</h4>
+    }
+    else
+    {
+        <table class="table">
+            <thead class="thead-dark">
                 <tr>
-                    <th scope="row"><img src=@item.Book.CoverImage height="80" /></th>
-                    <td>@item.Book?.Title</td>
-                    <td>@item.Price €</td>
-                    <td>
-                        <div class="input-group">
-                            <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
-                                <input type="hidden" name="bookId" value="@item.BookId" />
-                                <input type="hidden" name="quantity" value="-1" />
-                                <button type="submit" class="btn btn-outline-secondary">-</button>
-                            </form>
-                            <span class="input-group-text">@item.Quantity</span>
-                            <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
-                                <input type="hidden" name="bookId" value="@item.BookId" />
-                                <input type="hidden" name="quantity" value="1" />
-                                <button type="submit" class="btn btn-outline-secondary">+</button>
-                            </form>
-                        </div>
-                    </td>
-                    <td><a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-bookId="@item.BookId" class="btn btn-danger">Supprimer</a></td>
+                    <th scope="col">Article</th>
+                    <th scope="col">Titre du livre</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col">Supprimer</th>
                 </tr>
+            </thead>
+            <tbody>
+                @{
+                    decimal totalAmount = 0;
 
-                totalAmount += item.Price * item.Quantity;
-            }
+                    // Trier les CartItems par titre de livre
+                    var sortedItems = Model.CartItems.OrderBy(item => item.Book.Title);
+                }
 
-        </tbody>
-    </table>
-    <p><strong>Prix total :</strong> @totalAmount €</p>
+                @foreach (var item in sortedItems)
+                {
+                    <tr>
+                        <th scope="row"><img src=@item.Book.CoverImage height="80" /></th>
+                        <td>@item.Book?.Title</td>
+                        <td>@item.Price €</td>
+                        <td>
+                            <div class="input-group">
+                                <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
+                                    <input type="hidden" name="bookId" value="@item.BookId" />
+                                    <input type="hidden" name="quantity" value="-1" />
+                                    <button type="submit" class="btn btn-outline-secondary">-</button>
+                                </form>
+                                <span class="input-group-text">@item.Quantity</span>
+                                <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
+                                    <input type="hidden" name="bookId" value="@item.BookId" />
+                                    <input type="hidden" name="quantity" value="1" />
+                                    <button type="submit" class="btn btn-outline-secondary">+</button>
+                                </form>
+                            </div>
+                        </td>
+                        <td><a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-bookId="@item.BookId" class="btn btn-danger">Supprimer</a></td>
+                    </tr>
+
+                    totalAmount += item.Price * item.Quantity;
+                }
+            </tbody>
+        </table>
+        <p><strong>Prix total :</strong> @totalAmount €</p>
+    }
 }

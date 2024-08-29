@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WCC_Checkpoint2.Interface;
+using WCC_Checkpoint2.Models;
 
 namespace WCC_Checkpoint2.Controllers
 {
@@ -15,8 +16,16 @@ namespace WCC_Checkpoint2.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var books = await _bookRepository.GetAllAsync();
-            return View(books);
+            try
+            {
+                var books = await _bookRepository.GetAllAsync();
+                return View(books);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View("Index");
+            }
         }
 
         // Action pour gérer la recherche de livres
@@ -30,8 +39,17 @@ namespace WCC_Checkpoint2.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var book = await _bookRepository.GetByIdAsync(id);
-            return View(book);
+            try
+            {
+                var book = await _bookRepository.GetByIdAsync(id);
+                return View(book);
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                var emptyBook = new Book() { };
+                return View(emptyBook);
+            }
         }
     }
 }
