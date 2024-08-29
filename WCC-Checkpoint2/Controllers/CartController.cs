@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WCC_Checkpoint2.Interface;
 
 namespace WCC_Checkpoint2.Controllers
@@ -11,6 +12,7 @@ namespace WCC_Checkpoint2.Controllers
             _cartRepository = cartRepository;
         }
 
+        [Authorize]
         public async Task<IActionResult> ViewCart()
         {
             var cartId = await _cartRepository.GetCartIdAsync();
@@ -18,6 +20,7 @@ namespace WCC_Checkpoint2.Controllers
             return View(cart);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> RemoveFromCart(int bookId)
         {
@@ -25,6 +28,7 @@ namespace WCC_Checkpoint2.Controllers
             return RedirectToAction("ViewCart", "Cart");
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddToCart(int bookId, int quantity)
         {

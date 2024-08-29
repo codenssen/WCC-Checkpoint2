@@ -3,6 +3,8 @@ using System;
 using WCC_Checkpoint2.Data;
 using WCC_Checkpoint2.Interface;
 using WCC_Checkpoint2.Repository;
+using Microsoft.AspNetCore.Identity;
+using WCC_Checkpoint2.Areas.Identity.Data;
 
 namespace WCC_Checkpoint2
 {
@@ -18,10 +20,14 @@ namespace WCC_Checkpoint2
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDb"));
-            });
-
+            });    
+          
             builder.Services.AddScoped<IBookRepository, BookRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
+
+            builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.AddRazorPages();
 
             var app = builder.Build();
 
@@ -38,11 +44,16 @@ namespace WCC_Checkpoint2
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.MapRazorPages();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+       
 
             app.Run();
         }
