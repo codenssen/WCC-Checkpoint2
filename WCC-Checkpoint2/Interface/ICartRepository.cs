@@ -6,7 +6,8 @@ namespace WCC_Checkpoint2.Interface
     {
         Task<int> GetCartIdAsync();
         Task<Cart> GetCartAsync(int id);
-
         Task<bool> RemoveFromCartAsync(int bookId);
+        Task<Book> AddToCart(int bookId, int quantity);
+
     }
 }

@@ -23,6 +23,8 @@ namespace WCC_Checkpoint2.Data
 
             modelBuilder.Entity<CartItem>().Property(ci => ci.Price).HasColumnType("decimal(18,2)");
 
+            modelBuilder.Entity<Book>().Property(b => b.Price).HasColumnType("decimal(18,2)");
+
             modelBuilder.Entity<CartItem>()
             .HasOne(ca => ca.Cart)
             .WithMany(c => c.CartItems)
@@ -89,7 +91,7 @@ namespace WCC_Checkpoint2.Data
                 {
                     Id = 1,
                     Title = "L'Eveil du Leviathan",
-                    Price = 1.99,
+                    Price = 1.99M,
                     Description = "L'Éveil du Léviathan est le premier tome de la série de science-fiction The Expanse, écrit par James S.A. Corey, qui mêle intrigue politique, mystère spatial, et aventure interplanétaire dans un futur où l'humanité a colonisé le système solaire.",
                     CoverImage = "/img/cover1.jpg",
                     ISBN = "9782253083658",
@@ -100,7 +102,7 @@ namespace WCC_Checkpoint2.Data
                  {
                      Id = 2,
                      Title = "Fondation Tome 1",
-                     Price = 5.99,
+                     Price = 5.99M,
                      Description = "Fondation Tome 1 est le début de la célèbre saga de science-fiction d'Isaac Asimov, qui raconte la création d'une fondation scientifique destinée à préserver le savoir de l'humanité et à réduire la durée d'un âge sombre inévitable dans un futur galactique.",
                      CoverImage = "/img/cover2.jpg",
                      ISBN = "9782207170212",
@@ -111,7 +113,7 @@ namespace WCC_Checkpoint2.Data
                  {
                      Id = 3,
                      Title = "Le Seigneur des Anneaux : La Communauté de l'Anneau",
-                     Price = 8.99,
+                     Price = 8.99M,
                      Description = "Le premier tome de la célèbre saga fantastique de J.R.R. Tolkien, Le Seigneur des Anneaux, où un jeune hobbit est entraîné dans une quête pour détruire un anneau maléfique.",
                      CoverImage = "/img/cover3.jpg",
                      ISBN = "9782070501403",
@@ -122,7 +124,7 @@ namespace WCC_Checkpoint2.Data
                  {
                      Id = 4,
                      Title = "Le Hobbit",
-                     Price = 6.99,
+                     Price = 6.99M,
                      Description = "Le Hobbit, ou Bilbo le Hobbit, est un roman fantastique de J.R.R. Tolkien qui raconte les aventures de Bilbo Baggins, un hobbit qui part en quête avec une troupe de nains pour récupérer un trésor gardé par un dragon.",
                      CoverImage = "/img/cover4.jpg",
                      ISBN = "9782266341233",
@@ -133,7 +135,7 @@ namespace WCC_Checkpoint2.Data
                  {
                      Id = 5,
                      Title = "Shining",
-                     Price = 7.99,
+                     Price = 7.99M,
                      Description = "Shining est un roman d'horreur de Stephen King qui raconte l'histoire d'un écrivain, Jack Torrance, qui devient gardien d'un hôtel isolé où il sombre dans la folie.",
                      CoverImage = "/img/cover5.jpg",
                      ISBN = "9782253151623",
@@ -144,7 +146,7 @@ namespace WCC_Checkpoint2.Data
                  {
                      Id = 6,
                      Title = "Ça",
-                     Price = 9.99,
+                     Price = 9.99M,
                      Description = "Ça est un roman d'horreur de Stephen King qui raconte l'histoire d'un groupe d'enfants confronté à une entité maléfique qui prend la forme d'un clown terrifiant.",
                      CoverImage = "/img/cover6.jpg",
                      ISBN = "9782253151340",
@@ -155,7 +157,7 @@ namespace WCC_Checkpoint2.Data
                  {
                      Id = 7,
                      Title = "Les Piliers de la Terre",
-                     Price = 10.99,
+                     Price = 10.99M,
                      Description = "Les Piliers de la Terre est un roman historique de Ken Follett qui raconte la construction d'une cathédrale dans l'Angleterre médiévale et les luttes de pouvoir qui l'entourent.",
                      CoverImage = "/img/cover7.jpg",
                      ISBN = "9782253059530",
@@ -166,7 +168,7 @@ namespace WCC_Checkpoint2.Data
                  {
                      Id = 8,
                      Title = "Un Monde Sans Fin",
-                     Price = 12.99,
+                     Price = 12.99M,
                      Description = "Un Monde Sans Fin est la suite des Piliers de la Terre de Ken Follett, et se déroule 200 ans plus tard, explorant les vies des descendants des personnages du premier livre.",
                      CoverImage = "/img/cover8.jpg",
                      ISBN = "9782253125761",
@@ -177,7 +179,7 @@ namespace WCC_Checkpoint2.Data
                  {
                      Id = 9,
                      Title = "La Chute d'Hypérion",
-                     Price = 11.99,
+                     Price = 11.99M,
                      Description = "La Chute d'Hypérion est un roman de science-fiction de Dan Simmons, qui continue l'épopée spatiale commencée dans Hypérion, mêlant mythologie, philosophie, et aventure.",
                      CoverImage = "/img/cover9.jpg",
                      ISBN = "9782266285667",
@@ -188,7 +190,7 @@ namespace WCC_Checkpoint2.Data
                  {
                      Id = 10,
                      Title = "Dune",
-                     Price = 9.99,
+                     Price = 9.99M,
                      Description = "Dune est un roman de science-fiction épique de Frank Herbert, qui se déroule dans un futur lointain où de grandes familles nobles se disputent la maîtrise de la planète désertique Arrakis.",
                      CoverImage = "/img/cover10.jpg",
                      ISBN = "9782266320481",
@@ -199,9 +201,8 @@ namespace WCC_Checkpoint2.Data
 
             // Seed des paniers
             modelBuilder.Entity<Cart>().HasData(
-                new Cart() { Id = 1 },  // Panier 1
-                new Cart() { Id = 2 }   // Panier 2
-            );
+                new Cart() { Id = 1 } // Panier 1
+                    );
 
             // Seed des éléments du panier
             modelBuilder.Entity<CartItem>().HasData(
@@ -232,7 +233,7 @@ namespace WCC_Checkpoint2.Data
                 new CartItem()
                 {
                     Id = 4,
-                    CartId = 2,  // Relie à Cart 2
+                    CartId = 1,  // Relie à Cart 2
                     BookId = 4,  // Le Hobbit
                     Quantity = 1,
                     Price = 6.99m
@@ -240,7 +241,7 @@ namespace WCC_Checkpoint2.Data
                 new CartItem()
                 {
                     Id = 5,
-                    CartId = 2,  // Relie à Cart 2
+                    CartId = 1,  // Relie à Cart 2
                     BookId = 8,  // Un Monde Sans Fin
                     Quantity = 1,
                     Price = 12.99m
@@ -248,7 +249,7 @@ namespace WCC_Checkpoint2.Data
                 new CartItem()
                 {
                     Id = 6,
-                    CartId = 2,  // Relie à Cart 2
+                    CartId = 1,  // Relie à Cart 2
                     BookId = 10,  // Dune
                     Quantity = 2,
                     Price = 9.99m

@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         public string Description { get; set; } = string.Empty;
         public string CoverImage { get; set; } = string.Empty;
         public string ISBN { get; set; } = string.Empty;

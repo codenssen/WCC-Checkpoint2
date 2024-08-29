@@ -2,7 +2,6 @@
 
 <h3>Votre panier :</h3>
 
-
 <table class="table">
     <thead class="thead-dark">
         <tr>
@@ -10,6 +9,8 @@
             <th scope="col">Titre du livre</th>
             <th scope="col">Prix</th>
             <th scope="col">Quantité</th>
+            <th scope="col">Modifier</th>
+            <th scope="col">Supprimer</th>
         </tr>
     </thead>
     <tbody>
@@ -24,7 +25,22 @@
                 <th scope="row">@index</th>
                 <td>@item.Book?.Title</td>
                 <td>@item.Price €</td>
-                <td>@item.Quantity</td>
+                <td>
+                    <div class="input-group">
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
+                            <input type="hidden" name="bookId" value="@item.BookId" />
+                            <input type="hidden" name="quantity" value="-1" />
+                            <button type="submit" class="btn btn-outline-secondary">-</button>
+                        </form>
+                        <span class="input-group-text">@item.Quantity</span>
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
+                            <input type="hidden" name="bookId" value="@item.BookId" />
+                            <input type="hidden" name="quantity" value="1" />
+                            <button type="submit" class="btn btn-outline-secondary">+</button>
+                        </form>
+                    </div>
+                </td>
+                <td><a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-bookId="@item.BookId" class="btn btn-danger">Supprimer</a></td>
             </tr>
 
             index++;

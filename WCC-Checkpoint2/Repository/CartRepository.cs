@@ -49,5 +49,46 @@ namespace WCC_Checkpoint2.Repository
             return true;
         }
 
+        public async Task<Book> AddToCart(int bookId, int quantity)
+        {
+            // Récupérer l'élément du panier correspondant
+            var cartItem = await _context.CartItems
+                .FirstOrDefaultAsync(ci => ci.BookId == bookId); // currentCartId doit être déterminé en fonction de votre contexte
+
+            // Si l'élément existe déjà, on augmente la quantité
+            if (cartItem != null)
+            {
+                cartItem.Quantity += quantity;
+            }
+            else
+            {
+                // Si l'élément n'existe pas, on récupère le livre et on crée un nouvel élément de panier
+                var book = await _context.Books.FindAsync(bookId);
+                if (book == null)
+                {
+                    throw new Exception("Livre non trouvé");
+                }
+
+                cartItem = new CartItem
+                {
+                    CartId = 1,
+                    BookId = bookId,
+                    Quantity = quantity,
+                    Price = book.Price, // Supposons que vous ayez un champ Price dans votre modèle Book
+                    Book = book
+                };
+
+                _context.CartItems.Add(cartItem);
+            }
+
+            // Enregistrer les modifications
+            await _context.SaveChangesAsync();
+
+            // Retourner le livre ajouté ou mis à jour
+            return cartItem.Book;
+        }
+
+
+
     }
 }

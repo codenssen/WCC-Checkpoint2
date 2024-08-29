@@ -18,11 +18,27 @@ namespace WCC_Checkpoint2.Controllers
             return View(cart);
         }
 
-        [HttpPost]
-        public async Task<bool> RemoveFromCart(int bookId)
+        [HttpGet]
+        public async Task<IActionResult> RemoveFromCart(int bookId)
         {
-            return await _cartRepository.RemoveFromCartAsync(bookId);
+            var RemovedItem = await _cartRepository.RemoveFromCartAsync(bookId);
+            return RedirectToAction("ViewCart", "Cart");
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> AddToCart(int bookId, int quantity)
+        {
+            try
+            {
+                var book = await _cartRepository.AddToCart(bookId, quantity);
+                return RedirectToAction("ViewCart");
+            }
+            catch (Exception ex)
+            {
+                // Gérer l'exception, par exemple en ajoutant un message d'erreur à la vue
+                ModelState.AddModelError("", ex.Message);
+                return RedirectToAction("ViewCart");
+            }
         }
 
     }

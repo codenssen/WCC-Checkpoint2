@@ -32,6 +32,13 @@
                         <td>@book.Author.Name</td>
                         <td>@book.Price</td>
                         <td><a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id" class="btn btn-info">Détails</a></td>
+                        <td>
+                          <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
+                            <input type="hidden" name="bookId" value="@book.Id" />
+                            <input type="hidden" name="quantity" value="1" />
+                            <button type="submit" class="btn btn-outline-secondary">Ajouter au panier</button>
+                        </form>
+                                </td>
                     </tr>
                 }
             </tbody>
