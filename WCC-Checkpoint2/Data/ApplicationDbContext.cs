@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.Intrinsics.X86;
 using WCC_Checkpoint2.Areas.Identity.Data;
 using WCC_Checkpoint2.Models;
 
@@ -26,6 +28,21 @@ namespace WCC_Checkpoint2.Data
             modelBuilder.Entity<CartItem>().Property(ci => ci.Price).HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<Book>().Property(b => b.Price).HasColumnType("decimal(18,2)");
+
+            var user1 = new User
+            {
+                Id = Guid.NewGuid().ToString(),
+                UserName = "user@mail.com",
+                NormalizedUserName = "USER@MAIL.COM",
+                Email = "user@mail.com",
+                NormalizedEmail = "USER@MAIL.COM",
+                EmailConfirmed = true,
+                PasswordHash = new PasswordHasher<User>().HashPassword(null, "Password123!"),
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+            };
+
+            modelBuilder.Entity<User>().HasData(user1);
 
             modelBuilder.Entity<CartItem>()
             .HasOne(ca => ca.Cart)
