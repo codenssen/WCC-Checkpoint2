@@ -70,5 +70,52 @@ else
             </tbody>
         </table>
         <p><strong>Prix total :</strong> @totalAmount €</p>
+
+        <!-- Formulaire de paiement Stripe -->
+        <h4>Procéder au paiement</h4>
+        <form action="/Cart/ProcessPayment" method="post" id="payment-form">
+            <div class="form-row">
+                <label for="card-element">
+                    Carte de crédit ou de débit
+                </label>
+                <div id="card-element">
+                    <!-- Élément de carte sera inséré ici -->
+                </div>
+                <div id="card-errors" role="alert"></div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Payer @totalAmount €</button>
+        </form>
     }
 }
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    var stripe = Stripe('@ViewData["StripePublishableKey"]');
+    var elements = stripe.elements();
+    var card = elements.create('card');
+    card.mount('#card-element');
+
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function (result) {
+            if (result.error) {
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                stripeTokenHandler(result.token);
+            }
+        });
+    });
+
+    function stripeTokenHandler(token) {
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+
+        form.submit();
+    }
+</script>

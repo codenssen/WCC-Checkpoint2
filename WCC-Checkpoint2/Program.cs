@@ -5,6 +5,7 @@ using WCC_Checkpoint2.Interface;
 using WCC_Checkpoint2.Repository;
 using Microsoft.AspNetCore.Identity;
 using WCC_Checkpoint2.Areas.Identity.Data;
+using Stripe;
 
 namespace WCC_Checkpoint2
 {
@@ -13,6 +14,11 @@ namespace WCC_Checkpoint2
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+
+            // Configuration de Stripe
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            builder.Services.AddSingleton<IStripeClient>(new StripeClient(builder.Configuration["Stripe:SecretKey"]));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
